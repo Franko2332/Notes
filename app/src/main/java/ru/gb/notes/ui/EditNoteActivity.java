@@ -1,9 +1,11 @@
 package ru.gb.notes.ui;
 
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import ru.gb.notes.R;
 import ru.gb.notes.data.Constants;

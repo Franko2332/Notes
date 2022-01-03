@@ -1,10 +1,13 @@
 package ru.gb.notes.ui;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import ru.gb.notes.R;
 import ru.gb.notes.data.Constants;
@@ -17,20 +20,28 @@ public class NoteListActivity extends AppCompatActivity implements NotesAdapter.
     private Repo repository = InMemoryRepoImpl.getInstance();
     private RecyclerView list;
     private NotesAdapter notesAdapter;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fillRepo();
+        init();
+    }
+
+    private void init() {
         notesAdapter = new NotesAdapter();
         notesAdapter.setNotes(repository.getAll());
         notesAdapter.setOnNoteClickListener(this);
         list = findViewById(R.id.list);
         list.setLayoutManager(new LinearLayoutManager(this));
         list.setAdapter(notesAdapter);
-
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(x->{Intent intent= new Intent(this, EditNoteActivity.class);
+        startActivity(intent);});
     }
+
 
     private void fillRepo() {
         for (int i = 1; i < 20 ; i++) {
