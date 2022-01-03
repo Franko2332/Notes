@@ -9,22 +9,23 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        style="@style/TitleEditTextStyle"
         android:id="@+id/edit_note_title"
-        android:text="Title"
+        android:text="@string/title"
         />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="5"
-        android:textSize="20sp"
+        style="@style/DescriptionEditTextStyle"
         android:id="@+id/edit_note_description"
-        android:text="Description"
+        android:text="@string/description"
         />
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="update"
+        style="@style/SaveButtonStyle"
+        android:text="@string/save"
         android:id="@+id/update_note_button"
         />
 </LinearLayout>

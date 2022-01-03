@@ -2,7 +2,7 @@ package ru.gb.notes.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-
+import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +30,15 @@ public class NoteListActivity extends AppCompatActivity implements NotesAdapter.
         init();
     }
 
+
+    @Override
+    protected void onResume() {
+        notesAdapter.setNotes(repository.getAll());
+        list.setAdapter(notesAdapter);
+        Log.e("onResume", "onResume");
+        super.onResume();
+    }
+
     private void init() {
         notesAdapter = new NotesAdapter();
         notesAdapter.setNotes(repository.getAll());
@@ -44,7 +53,7 @@ public class NoteListActivity extends AppCompatActivity implements NotesAdapter.
 
 
     private void fillRepo() {
-        for (int i = 1; i < 20 ; i++) {
+        for (int i = 1; i < 5 ; i++) {
             repository.create(new Note("Title "+String.valueOf(i), "Description "+String.valueOf(i)));
         }
     }
