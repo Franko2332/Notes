@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SaveButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+    </style>
+    <style name="TitleEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+    <style name="DescriptionEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="TitleTextViewStyle" parent="Widget.MaterialComponents.TextView">
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+    <style name="DescriptionTextViewStyle" parent="Widget.MaterialComponents.TextView">
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+</resources>
