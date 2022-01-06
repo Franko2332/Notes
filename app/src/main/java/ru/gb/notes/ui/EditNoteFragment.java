@@ -92,4 +92,11 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener {
         }
         controller.saveNote();
     }
+
+    public Note getNote() {
+        if (note==null){
+            note = new Note(title.getText().toString(), description.getText().toString());
+        }
+        return note;
+    }
 }

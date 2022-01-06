@@ -1,5 +1,6 @@
 package ru.gb.notes.ui;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import ru.gb.notes.R;
@@ -14,7 +15,23 @@ public class NoteListActivity extends AppCompatActivity implements NotesListFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notes_fragment_activity);
-        setFragment();
+        if(isLandScape()){
+            setSplitViewFragments();
+        } else {
+            setFragment();
+        }
+    }
+
+    private boolean isLandScape() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    private void setSplitViewFragments(){
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            getSupportFragmentManager().beginTransaction()
+                    .addToBackStack("NOTE_LIST_FRAGMENT")
+                    .add(R.id.second_fragment_holder, new EditNoteFragment()).commit();
+        }
     }
 
     private void setFragment() {
@@ -35,8 +52,13 @@ public class NoteListActivity extends AppCompatActivity implements NotesListFrag
 
     @Override
     public void editNote(Note note) {
+        if (isLandScape()){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.second_fragment_holder, EditNoteFragment.getInstance(note)).commit();
+        } else{
         getSupportFragmentManager().beginTransaction().addToBackStack(null)
                 .replace(R.id.fragment_holder, EditNoteFragment.getInstance(note)).commit();
+        }
     }
 
     @Override
