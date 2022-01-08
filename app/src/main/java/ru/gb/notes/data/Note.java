@@ -7,6 +7,7 @@ private Integer id;
 private String title;
 private String description;
 private String importance;
+private String date;
 
     public Note(String title, String description) {
         this.title = title;
@@ -53,6 +54,14 @@ private String importance;
 
     public String getImportance() {
         return importance;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public void setTitle(String title) {
