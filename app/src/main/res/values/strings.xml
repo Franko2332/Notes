@@ -3,4 +3,13 @@
     <string name="save">SAVE</string>
     <string name="description">Description</string>
     <string name="title">Title</string>
+    <string name="delete">Delete</string>
+    <string name="change_date">change_date</string>
+    <string name="favorites">favorites</string>
+    <string-array name="importance">
+        <item>Importance not selected</item>
+        <item>Very important</item>
+        <item>Important</item>
+        <item>Never mind</item>
+    </string-array>
 </resources>
