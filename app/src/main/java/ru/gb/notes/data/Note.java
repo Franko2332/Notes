@@ -6,10 +6,13 @@ public class Note implements Serializable {
 private Integer id;
 private String title;
 private String description;
+private String importance;
 
     public Note(String title, String description) {
         this.title = title;
         this.description = description;
+        this.importance = Constants.Importance.IMPORTANCE_NOT_SELECTED.toString();
+
     }
 
     public Note(Integer id, String title, String description) {
@@ -17,6 +20,19 @@ private String description;
         this.title = title;
         this.description = description;
     }
+    public Note(Integer id, String title, String description, Constants.Importance importance) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.importance = importance.toString();
+    }
+    public Note (String title, String description, String importance) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.importance = importance;
+    }
+
 
 
     public Integer getId() {
@@ -29,6 +45,14 @@ private String description;
 
     public String getTitle() {
         return title;
+    }
+
+    public void setImportance(String importance) {
+        this.importance = importance;
+    }
+
+    public String getImportance() {
+        return importance;
     }
 
     public void setTitle(String title) {
