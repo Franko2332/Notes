@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -32,7 +34,7 @@ import ru.gb.notes.data.InMemoryRepoImpl;
 import ru.gb.notes.data.Note;
 import ru.gb.notes.data.Repo;
 
-public class EditNoteFragment extends Fragment implements View.OnClickListener, NavigationBarView.OnItemSelectedListener {
+public class EditNoteFragment extends Fragment implements View.OnClickListener, NavigationBarView.OnItemSelectedListener, Serializable {
     private Note note;
     private EditText title;
     private EditText description;
@@ -44,6 +46,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
     private Repo repo = InMemoryRepoImpl.getInstance();
     private NotesListFragment.Controller controller;
     private int currentDay, currentMonth, currentYear;
+    public static final String TAG = "onSave";
 
     public static EditNoteFragment getInstance(Note note) {
         EditNoteFragment editNoteFragment = new EditNoteFragment();
@@ -86,7 +89,13 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
         onViewCreatedInit(view);
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     private void onViewCreatedInit(@NonNull View view) {
+
         dateTextView = view.findViewById(R.id.due_date_text_view);
         bottomNavigationView = view.findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(this);
@@ -104,7 +113,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
                     spinner.setSelection(i);
                 }
             }
-            if(note.getDate()!=null){
+            if (note.getDate() != null) {
                 dateTextView.setText(note.getDate());
             }
         }
@@ -115,12 +124,15 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onClick(View view) {
         if (editMode) {
+            Log.e("edit", "editMode");
             note.setTitle(title.getText().toString());
             note.setDescription(description.getText().toString());
             note.setImportance(spinner.getSelectedItem().toString());
             note.setDate(dateTextView.getText().toString());
             repo.update(note);
         } else {
+            editMode = true;
+            Log.e("new", "new");
             note = new Note(title.getText().toString(), description.getText().toString(), spinner.getSelectedItem().toString());
             note.setDate(dateTextView.getText().toString());
             repo.create(note);
@@ -153,6 +165,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
+
     private void callDatePicker() {
         final Calendar calendar = Calendar.getInstance();
         currentDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -164,7 +177,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
                 String date = day + "." + (month + 1) + "." + year;
                 dateTextView.setText(date);
             }
-        }, currentYear,  currentMonth, currentDay);
+        }, currentYear, currentMonth, currentDay);
         dpDialog.show();
     }
 }
