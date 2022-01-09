@@ -153,6 +153,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
+
     private void callDatePicker() {
         final Calendar calendar = Calendar.getInstance();
         currentDay = calendar.get(Calendar.DAY_OF_MONTH);

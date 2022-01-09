@@ -3,7 +3,9 @@ package ru.gb.notes.ui;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import ru.gb.notes.R;
 import ru.gb.notes.data.Note;
 
@@ -16,7 +18,7 @@ public class NoteListActivity extends AppCompatActivity implements NotesListFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notes_fragment_activity);
-        if(isLandScape()){
+        if (isLandScape()) {
             setSplitViewFragments();
         } else {
             setFragment();
@@ -27,10 +29,16 @@ public class NoteListActivity extends AppCompatActivity implements NotesListFrag
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
-    private void setSplitViewFragments(){
-        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+    private void setSplitViewFragments() {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fragment_holder, new NotesListFragment())
+                    .addToBackStack(null)
+                    .commit();
+
+        } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             getSupportFragmentManager().beginTransaction()
-                    .addToBackStack("NOTE_LIST_FRAGMENT")
                     .add(R.id.second_fragment_holder, new EditNoteFragment()).commit();
         }
     }
@@ -46,25 +54,38 @@ public class NoteListActivity extends AppCompatActivity implements NotesListFrag
 
     @Override
     public void addNote() {
-        getSupportFragmentManager().beginTransaction().addToBackStack(null).
-                replace(R.id.fragment_holder, new EditNoteFragment())
-                .addToBackStack(null).commit();
+        if (isLandScape()) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.second_fragment_holder, new EditNoteFragment())
+                    .commit();
+        } else {
+            getSupportFragmentManager().beginTransaction().addToBackStack(null).
+                    replace(R.id.fragment_holder, new EditNoteFragment())
+                    .addToBackStack(null).commit();
+        }
     }
 
     @Override
     public void editNote(Note note) {
-        if (isLandScape()){
+        if (isLandScape()) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.second_fragment_holder, EditNoteFragment.getInstance(note)).commit();
-        } else{
-        getSupportFragmentManager().beginTransaction().addToBackStack(null)
-                .replace(R.id.fragment_holder, EditNoteFragment.getInstance(note)).commit();
+        } else {
+            getSupportFragmentManager().beginTransaction().addToBackStack(null)
+                    .replace(R.id.fragment_holder, EditNoteFragment.getInstance(note)).commit();
         }
     }
 
     @Override
     public void saveNote() {
-        super.onBackPressed();
+        if (isLandScape()) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_holder, new NotesListFragment())
+                    .commit();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }
