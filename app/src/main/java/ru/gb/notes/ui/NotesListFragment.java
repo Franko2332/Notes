@@ -34,6 +34,7 @@ public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteCl
         void editNote(Note note);
 
         void saveNote();
+
     }
 
     @Override
