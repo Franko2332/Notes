@@ -13,17 +13,24 @@ import java.util.List;
 
 import ru.gb.notes.R;
 import ru.gb.notes.data.Note;
+import ru.gb.notes.interfaces.PopupMenuItemClickListener;
 
 public class NotesAdapter extends RecyclerView.Adapter<NoteHolder> {
     private List<Note> notes = new ArrayList<>();
     private OnNoteClickListener listener;
+    private PopupMenuItemClickListener popupMenuItemClickListener;
 
     public interface OnNoteClickListener {
         void onNoteClickListener(Note note);
     }
 
+    public void setPopupMenuItemClickListener(PopupMenuItemClickListener popupMenuItemClickListener){
+        this.popupMenuItemClickListener = popupMenuItemClickListener;
+    }
+
     public void setNotes(List<Note> notes) {
         this.notes = notes;
+        notifyDataSetChanged();
     }
 
     public void setOnNoteClickListener(OnNoteClickListener listener) {
@@ -36,7 +43,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteHolder> {
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.note_item, viewGroup, false);
-        return new NoteHolder(view, listener);
+        return new NoteHolder(view, listener, popupMenuItemClickListener);
     }
 
     @Override

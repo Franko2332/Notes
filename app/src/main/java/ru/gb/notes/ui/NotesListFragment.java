@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,27 +16,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.Serializable;
+
 import ru.gb.notes.R;
 import ru.gb.notes.data.InMemoryRepoImpl;
 import ru.gb.notes.data.Note;
 import ru.gb.notes.data.Repo;
+import ru.gb.notes.interfaces.PopupMenuItemClickListener;
 import ru.gb.notes.recycler.NotesAdapter;
 
-public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteClickListener {
+public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteClickListener, Serializable {
     Repo repo = InMemoryRepoImpl.getInstance();
     RecyclerView recycler;
     NotesAdapter adapter;
     Controller controller;
+    PopupMenuItemClickListener popupMenuItemClickListener;
     FloatingActionButton fab;
 
     interface Controller {
-        void addNote();
 
+        void addNote();
         void editNote(Note note);
 
         void saveNote();
-    }
 
+
+    }
     @Override
     public void onAttach(@NonNull Context context) {
 
@@ -63,15 +69,29 @@ public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteCl
         recycler = view.findViewById(R.id.list);
         fab = view.findViewById(R.id.fab);
         controller = (Controller) getActivity();
+        popupMenuItemClickListener = (PopupMenuItemClickListener) getActivity();
         adapter = new NotesAdapter();
         adapter.setNotes(repo.getAll());
         adapter.setOnNoteClickListener(this);
+        adapter.setPopupMenuItemClickListener(popupMenuItemClickListener);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
         fab.setOnClickListener(x -> {
             controller.addNote();
         });
     }
+
+    public void notifyDataSetChangedInAdapter(){
+        Log.e("repo", String.valueOf(repo.getAll().size()));
+            Log.e("adapter", "adapter non null");
+            adapter.notifyDataSetChanged();
+    }
+
+    public void deleteNote(Note note, int position){
+       repo.delete(note.getId());
+       adapter.notifyItemRemoved(position);
+    }
+
 
 
     @Override
