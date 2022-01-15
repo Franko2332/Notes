@@ -34,12 +34,11 @@
             <TextView
                 android:layout_gravity="start"
                 android:id="@+id/note_importance"
-                android:textSize="10sp"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-
-                android:text="" />
+                android:layout_weight="1"
+                android:text=""
+                android:textSize="10sp" />
 
         </LinearLayout>
 
@@ -51,6 +50,13 @@
             android:layout_height="wrap_content"
             android:lines="3"
             android:text="@string/description" />
+
+        <TextView
+            android:id="@+id/note_date_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <ImageView

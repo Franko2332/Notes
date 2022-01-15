@@ -97,6 +97,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
     private void onViewCreatedInit(@NonNull View view) {
 
         dateTextView = view.findViewById(R.id.due_date_text_view);
+        dateTextView.setOnClickListener(x->callDatePicker());
         bottomNavigationView = view.findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(this);
         title = view.findViewById(R.id.title_edit_note);

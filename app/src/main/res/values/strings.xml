@@ -7,6 +7,7 @@
     <string name="change_date">Change date</string>
     <string name="favorites">favorites</string>
     <string name="modify">Modify</string>
+    <string name="set_date">set date</string>
     <string-array name="importance">
         <item>Importance not selected</item>
         <item>Very important</item>

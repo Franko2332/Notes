@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,18 +30,19 @@ public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteCl
     RecyclerView recycler;
     NotesAdapter adapter;
     Controller controller;
+    TextView dateTextView;
     PopupMenuItemClickListener popupMenuItemClickListener;
     FloatingActionButton fab;
 
     interface Controller {
-        void addNote();
 
+        void addNote();
         void editNote(Note note);
 
         void saveNote();
 
-    }
 
+    }
     @Override
     public void onAttach(@NonNull Context context) {
 
@@ -91,9 +93,7 @@ public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteCl
        adapter.notifyItemRemoved(position);
     }
 
-    public void modifyNote(Note note, int position){
 
-    }
 
     @Override
     public void onNoteClickListener(Note note) {

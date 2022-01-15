@@ -21,6 +21,7 @@ public class NoteHolder extends RecyclerView.ViewHolder implements PopupMenu.OnM
     private TextView importance;
     private ImageView imageView;
     private PopupMenu popupMenu;
+    private TextView date;
     private PopupMenuItemClickListener popupMenuItemClickListener;
 
     public NoteHolder(View itemView, NotesAdapter.OnNoteClickListener listener,
@@ -29,6 +30,7 @@ public class NoteHolder extends RecyclerView.ViewHolder implements PopupMenu.OnM
         this.popupMenuItemClickListener = popupMenuItemClickListener;
         imageView = itemView.findViewById(R.id.context_menu);
         importance = itemView.findViewById(R.id.note_importance);
+        date = itemView.findViewById(R.id.note_date_text_view);
         title = itemView.findViewById(R.id.note_title);
         description = itemView.findViewById(R.id.note_description);
         itemView.setOnClickListener(x -> {
@@ -42,6 +44,7 @@ public class NoteHolder extends RecyclerView.ViewHolder implements PopupMenu.OnM
 
     void bind(Note note) {
         this.note = note;
+        date.setText(note.getDate());
         importance.setText(note.getImportance());
         title.setText(note.getTitle());
         description.setText(note.getDescription());
