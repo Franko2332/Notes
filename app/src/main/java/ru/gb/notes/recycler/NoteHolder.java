@@ -2,6 +2,7 @@ package ru.gb.notes.recycler;
 
 
 import android.annotation.SuppressLint;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,8 +37,9 @@ public class NoteHolder extends RecyclerView.ViewHolder implements PopupMenu.OnM
         itemView.setOnClickListener(x -> {
             listener.onNoteClickListener(note);
         });
-        popupMenu = new PopupMenu(itemView.getContext(), itemView);
+        popupMenu = new PopupMenu(itemView.getContext(), itemView, Gravity.TOP);
         popupMenu.inflate(R.menu.context);
+
         imageView.setOnClickListener(p -> popupMenu.show());
         popupMenu.setOnMenuItemClickListener(this);
     }

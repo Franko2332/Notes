@@ -154,27 +154,24 @@ public class NoteListActivity extends AppCompatActivity implements NotesListFrag
 
     @Override
     public void click(int command, Note note, int position) {
-        switch (command) {
-            case R.id.context_delete:
-                if(isLandScape()) {
-                    notesListFragment.deleteNote(note, position);
-                    if(InMemoryRepoImpl.getInstance().getAll().size()>0){
-                      getSupportFragmentManager().beginTransaction()
-                      .replace(R.id.second_fragment_holder,
-                              EditNoteFragment.getInstance(InMemoryRepoImpl.
-                                      getInstance().getAll().get(0))).commit();
-                    } else {
-                        EditNoteFragment editNoteFragment = (EditNoteFragment) getSupportFragmentManager().
-                                findFragmentByTag(Constants.EDIT_NOTE_FRAGMENT);
-                        if(editNoteFragment!=null) {
-                            getSupportFragmentManager().beginTransaction().remove(editNoteFragment).commit();
-                        }
-                    }
+        if (command == R.id.context_delete) {
+            notesListFragment.deleteNote(note, position);
+            if (isLandScape()) {
+                if (InMemoryRepoImpl.getInstance().getAll().size() > 0) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.second_fragment_holder,
+                                    EditNoteFragment.getInstance(InMemoryRepoImpl.
+                                            getInstance().getAll().get(0))).commit();
                 } else {
-                    notesListFragment.deleteNote(note, position);
+                    EditNoteFragment editNoteFragment = (EditNoteFragment) getSupportFragmentManager().
+                            findFragmentByTag(Constants.EDIT_NOTE_FRAGMENT);
+                    if (editNoteFragment != null) {
+                        getSupportFragmentManager().beginTransaction().remove(editNoteFragment).commit();
+                    }
                 }
-            case R.id.context_modify:
-                editNote(note);
+            }
+        } else {
+            editNote(note);
         }
     }
 }

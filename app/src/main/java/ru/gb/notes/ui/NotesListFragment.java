@@ -30,7 +30,6 @@ public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteCl
     RecyclerView recycler;
     NotesAdapter adapter;
     Controller controller;
-    TextView dateTextView;
     PopupMenuItemClickListener popupMenuItemClickListener;
     FloatingActionButton fab;
 
