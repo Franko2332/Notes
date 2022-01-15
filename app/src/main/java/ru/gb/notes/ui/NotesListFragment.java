@@ -15,17 +15,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.Serializable;
+
 import ru.gb.notes.R;
 import ru.gb.notes.data.InMemoryRepoImpl;
 import ru.gb.notes.data.Note;
 import ru.gb.notes.data.Repo;
+import ru.gb.notes.interfaces.PopupMenuItemClickListener;
 import ru.gb.notes.recycler.NotesAdapter;
 
-public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteClickListener {
+public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteClickListener, Serializable {
     Repo repo = InMemoryRepoImpl.getInstance();
     RecyclerView recycler;
     NotesAdapter adapter;
     Controller controller;
+    PopupMenuItemClickListener popupMenuItemClickListener;
     FloatingActionButton fab;
 
     interface Controller {
@@ -64,9 +68,11 @@ public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteCl
         recycler = view.findViewById(R.id.list);
         fab = view.findViewById(R.id.fab);
         controller = (Controller) getActivity();
+        popupMenuItemClickListener = (PopupMenuItemClickListener) getActivity();
         adapter = new NotesAdapter();
         adapter.setNotes(repo.getAll());
         adapter.setOnNoteClickListener(this);
+        adapter.setPopupMenuItemClickListener(popupMenuItemClickListener);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
         fab.setOnClickListener(x -> {
@@ -74,6 +80,20 @@ public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteCl
         });
     }
 
+    public void notifyDataSetChangedInAdapter(){
+        Log.e("repo", String.valueOf(repo.getAll().size()));
+            Log.e("adapter", "adapter non null");
+            adapter.notifyDataSetChanged();
+    }
+
+    public void deleteNote(Note note, int position){
+       repo.delete(note.getId());
+       adapter.notifyItemRemoved(position);
+    }
+
+    public void modifyNote(Note note, int position){
+
+    }
 
     @Override
     public void onNoteClickListener(Note note) {

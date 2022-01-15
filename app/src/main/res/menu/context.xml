@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/context_delete"
+        android:icon="@drawable/ic_outline_delete_24"
+        android:title="@string/delete" />
+    <item android:id="@+id/context_modify"
+        android:icon="@drawable/ic_baseline_date_range_24"
+        android:title="@string/modify" />
+</menu>
