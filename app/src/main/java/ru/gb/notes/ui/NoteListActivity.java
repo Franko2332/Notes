@@ -1,9 +1,6 @@
 package ru.gb.notes.ui;
-
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,14 +60,12 @@ public class NoteListActivity extends AppCompatActivity implements NotesListFrag
                     .replace(R.id.second_fragment_holder, editNoteFragment)
                     .commit();
         } else if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            Log.e("vaso", "setSplitViewFragments: 0 ");
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.fragment_holder, new NotesListFragment())
                     .commit();
 
         } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            Log.e("vaso", "setSplitViewFragments: 1");
             if (InMemoryRepoImpl.getInstance().getAll().size() > 0) {
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.second_fragment_holder,
@@ -85,7 +80,6 @@ public class NoteListActivity extends AppCompatActivity implements NotesListFrag
     private void setFragment() {
         notesListFragment = new NotesListFragment();
         if(editMode){
-            Log.i("editMode", "true");
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_holder, editNoteFragment, Constants.EDIT_NOTE_FRAGMENT);
         } else if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
@@ -118,8 +112,6 @@ public class NoteListActivity extends AppCompatActivity implements NotesListFrag
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.second_fragment_holder, EditNoteFragment.getInstance(note), Constants.EDIT_NOTE_FRAGMENT).commit();
         } else {
-            Log.e("dddd", "fragments in to back stack" + String.valueOf(getSupportFragmentManager()
-                    .getBackStackEntryCount()));
             getSupportFragmentManager().beginTransaction().addToBackStack(null)
                     .replace(R.id.fragment_holder, EditNoteFragment.getInstance(note), Constants.EDIT_NOTE_FRAGMENT).commit();
             editMode = true;
