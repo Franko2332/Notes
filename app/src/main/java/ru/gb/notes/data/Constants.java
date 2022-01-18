@@ -11,6 +11,7 @@ public class Constants {
     public static final String NOTE_DATE = "NOTE_DATE";
     public static final String NOTE_LIST_FRAGMENT = "NOTE_LIST_FRAGMENT";
     public static final String EDIT_NOTE_FRAGMENT = "EDIT_NOTE_FRAGMENT";
+    public static final String EXIT_DIALOG_FRAGMENT = "EXIT_DIALOG_FRAGMENT";
 
     public  enum Importance{
         IMPORTANCE_NOT_SELECTED,

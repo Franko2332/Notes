@@ -2,28 +2,36 @@ package ru.gb.notes.ui;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import java.util.List;
 
 import ru.gb.notes.R;
 import ru.gb.notes.data.Constants;
 import ru.gb.notes.data.InMemoryRepoImpl;
 import ru.gb.notes.data.Note;
+import ru.gb.notes.interfaces.ExitFromNotesController;
 import ru.gb.notes.interfaces.PopupMenuItemClickListener;
 
 
-public class NoteListActivity extends AppCompatActivity implements NotesListFragment.Controller, PopupMenuItemClickListener {
+public class NoteListActivity extends AppCompatActivity implements NotesListFragment.Controller, PopupMenuItemClickListener, ExitFromNotesController {
 
     private boolean editMode = false;
     private NotesListFragment notesListFragment;
     private EditNoteFragment editNoteFragment;
+    private ExitDialogFragment exitDialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notes_fragment_activity);
         notesListFragment = new NotesListFragment();
+        exitDialogFragment = new ExitDialogFragment();
         if (savedInstanceState != null && savedInstanceState.containsKey(Constants.EDIT_MODE)) {
             editNoteFragment = (EditNoteFragment) savedInstanceState.getSerializable(Constants.EDIT_NOTE_FRAGMENT);
             editMode = savedInstanceState.getBoolean(Constants.EDIT_MODE);
@@ -146,10 +154,21 @@ public class NoteListActivity extends AppCompatActivity implements NotesListFrag
 
     @Override
     public void onBackPressed() {
-        if (editMode) {
+
+        if (isItPossibleToExitTheApplication()) {
+            new ExitDialogFragment().show(getSupportFragmentManager(), Constants.EXIT_DIALOG_FRAGMENT);
+        } else if (editMode) {
             editMode = false;
+            super.onBackPressed();
         }
-        super.onBackPressed();
+    }
+
+    private boolean isItPossibleToExitTheApplication() {
+        boolean result = false;
+        if (isLandScape() || !editMode) {
+            result = true;
+        }
+        return result;
     }
 
     @Override
@@ -174,4 +193,22 @@ public class NoteListActivity extends AppCompatActivity implements NotesListFrag
             editNote(note);
         }
     }
+
+    @Override
+    public void exit() {
+        Toast.makeText(getBaseContext(), "exited the app", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void cancel() {
+        exitDialogFragment = (ExitDialogFragment) getSupportFragmentManager()
+                .findFragmentByTag(Constants.EXIT_DIALOG_FRAGMENT);
+        if (exitDialogFragment != null) {
+            exitDialogFragment.dismiss();
+            setFragment();
+        }
+    }
+
+
 }
