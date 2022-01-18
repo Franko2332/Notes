@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,11 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
+import java.time.Duration;
 
 import ru.gb.notes.R;
 import ru.gb.notes.data.InMemoryRepoImpl;
 import ru.gb.notes.data.Note;
 import ru.gb.notes.data.Repo;
+import ru.gb.notes.interfaces.ExitFromNotesController;
 import ru.gb.notes.interfaces.PopupMenuItemClickListener;
 import ru.gb.notes.recycler.NotesAdapter;
 
@@ -36,9 +39,11 @@ public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteCl
     interface Controller {
 
         void addNote();
+
         void editNote(Note note);
 
         void saveNote();
+
 
 
     }
@@ -81,17 +86,16 @@ public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteCl
         });
     }
 
-    public void notifyDataSetChangedInAdapter(){
+    public void notifyDataSetChangedInAdapter() {
         Log.e("repo", String.valueOf(repo.getAll().size()));
-            Log.e("adapter", "adapter non null");
-            adapter.notifyDataSetChanged();
+        Log.e("adapter", "adapter non null");
+        adapter.notifyDataSetChanged();
     }
 
-    public void deleteNote(Note note, int position){
-       repo.delete(note.getId());
-       adapter.notifyItemRemoved(position);
+    public void deleteNote(Note note, int position) {
+        repo.delete(note.getId());
+        adapter.notifyItemRemoved(position);
     }
-
 
 
     @Override
