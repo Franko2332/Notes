@@ -3,7 +3,9 @@ package ru.gb.notes.ui;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,6 +25,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -33,6 +36,7 @@ import ru.gb.notes.data.Constants;
 import ru.gb.notes.data.InMemoryRepoImpl;
 import ru.gb.notes.data.Note;
 import ru.gb.notes.data.Repo;
+import ru.gb.notes.data.SharedPrefRepo;
 
 public class EditNoteFragment extends Fragment implements View.OnClickListener, NavigationBarView.OnItemSelectedListener, Serializable {
     private Note note;
@@ -43,9 +47,11 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
     private boolean editMode;
     private TextView dateTextView;
     private BottomNavigationView bottomNavigationView;
-    private Repo repo = InMemoryRepoImpl.getInstance();
+    //private Repo repo = InMemoryRepoImpl.getInstance();
+    private Repo repo;
     private NotesListFragment.Controller controller;
     private int currentDay, currentMonth, currentYear;
+    private SharedPreferences sharedPreferences;
 
     public static EditNoteFragment getInstance(Note note) {
         EditNoteFragment editNoteFragment = new EditNoteFragment();
@@ -58,6 +64,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onAttach(@NonNull Context context) {
         controller = (NotesListFragment.Controller) getActivity();
+        repo = SharedPrefRepo.getInstance(context);
         super.onAttach(context);
     }
 

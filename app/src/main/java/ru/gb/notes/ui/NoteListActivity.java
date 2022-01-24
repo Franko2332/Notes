@@ -1,25 +1,37 @@
 package ru.gb.notes.ui;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.navigation.NavigationView;
+
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.gb.notes.R;
 import ru.gb.notes.data.Constants;
 import ru.gb.notes.data.InMemoryRepoImpl;
 import ru.gb.notes.data.Note;
+import ru.gb.notes.data.SharedPrefRepo;
 import ru.gb.notes.interfaces.ExitFromNotesController;
 import ru.gb.notes.interfaces.PopupMenuItemClickListener;
 
 
-public class NoteListActivity extends AppCompatActivity implements NotesListFragment.Controller, PopupMenuItemClickListener, ExitFromNotesController {
+public class NoteListActivity extends AppCompatActivity implements NotesListFragment.Controller,
+        PopupMenuItemClickListener, ExitFromNotesController {
 
     private boolean editMode = false;
     private NotesListFragment notesListFragment;
@@ -176,11 +188,11 @@ public class NoteListActivity extends AppCompatActivity implements NotesListFrag
         if (command == R.id.context_delete) {
             notesListFragment.deleteNote(note, position);
             if (isLandScape()) {
-                if (InMemoryRepoImpl.getInstance().getAll().size() > 0) {
+                if (SharedPrefRepo.getInstance(getBaseContext()).getAll().size() > 0) {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.second_fragment_holder,
-                                    EditNoteFragment.getInstance(InMemoryRepoImpl.
-                                            getInstance().getAll().get(0))).commit();
+                                    EditNoteFragment.getInstance(SharedPrefRepo.getInstance(getBaseContext())
+                                            .getAll().get(0))).commit();
                 } else {
                     EditNoteFragment editNoteFragment = (EditNoteFragment) getSupportFragmentManager().
                             findFragmentByTag(Constants.EDIT_NOTE_FRAGMENT);
