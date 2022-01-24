@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import ru.gb.notes.R;
 import ru.gb.notes.data.Note;
 import ru.gb.notes.interfaces.PopupMenuItemClickListener;
 
-public class NotesAdapter extends RecyclerView.Adapter<NoteHolder> {
+public class NotesAdapter extends RecyclerView.Adapter<NoteHolder> implements Serializable {
     private List<Note> notes = new ArrayList<>();
     private OnNoteClickListener listener;
     private PopupMenuItemClickListener popupMenuItemClickListener;
@@ -27,6 +28,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteHolder> {
     public void setPopupMenuItemClickListener(PopupMenuItemClickListener popupMenuItemClickListener){
         this.popupMenuItemClickListener = popupMenuItemClickListener;
     }
+
+
 
     public void setNotes(List<Note> notes) {
         this.notes = notes;

@@ -24,12 +24,14 @@ import ru.gb.notes.R;
 import ru.gb.notes.data.InMemoryRepoImpl;
 import ru.gb.notes.data.Note;
 import ru.gb.notes.data.Repo;
+import ru.gb.notes.data.SharedPrefRepo;
 import ru.gb.notes.interfaces.ExitFromNotesController;
 import ru.gb.notes.interfaces.PopupMenuItemClickListener;
 import ru.gb.notes.recycler.NotesAdapter;
 
 public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteClickListener, Serializable {
-    Repo repo = InMemoryRepoImpl.getInstance();
+    //Repo repo = InMemoryRepoImpl.getInstance();
+    Repo repo;
     RecyclerView recycler;
     NotesAdapter adapter;
     Controller controller;
@@ -49,7 +51,7 @@ public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteCl
     }
     @Override
     public void onAttach(@NonNull Context context) {
-
+        repo = SharedPrefRepo.getInstance(context);
         super.onAttach(context);
     }
 
@@ -93,8 +95,11 @@ public class NotesListFragment extends Fragment implements NotesAdapter.OnNoteCl
     }
 
     public void deleteNote(Note note, int position) {
+        Log.e("note id ", String.valueOf(note.getId()));
+        Log.e("note position ", String.valueOf(position));
         repo.delete(note.getId());
         adapter.notifyItemRemoved(position);
+
     }
 
 

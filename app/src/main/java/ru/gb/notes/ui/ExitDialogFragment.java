@@ -2,18 +2,16 @@ package ru.gb.notes.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import java.io.Serializable;
 
 import ru.gb.notes.interfaces.ExitFromNotesController;
 
-public class ExitDialogFragment extends DialogFragment {
+public class ExitDialogFragment extends DialogFragment implements Serializable {
 
     @NonNull
     @Override
